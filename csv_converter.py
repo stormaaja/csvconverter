@@ -29,8 +29,10 @@ class CsvConverter:
         self.target_quantity = target_quantity
 
     def convertRow(self, row):
+        if not row[self.source_product_code]:
+            raise ValueError
         return {
-            'product_code': int(row[self.source_product_code]),
+            'product_code': row[self.source_product_code],
             'quantity': int(row[self.source_quantity])
         }
 
