@@ -15,10 +15,14 @@ class CsvConverter:
     def addRow(self, row):
         self.lines.append(row)
 
+    def setSourceColumns(source_product_code, source_quantity):
+        self.source_product_code = source_product_code
+        self.source_quantity = source_quantity
+
     def convertRow(self, row):
         return {
-            'product_code': int(row['tuotekoodi']),
-            'quantity': int(row['qty'])
+            'product_code': int(row[self.source_product_code]),
+            'quantity': int(row[self.source_quantity])
         }
 
     def read_file(self):
