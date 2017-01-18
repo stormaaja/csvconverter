@@ -38,4 +38,4 @@ class CsvConverter:
         with open(self.csv_file_path, 'rb') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                self.addRow(convertRow(row))
+                self.addRow(self.convertRow(row))
