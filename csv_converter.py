@@ -12,6 +12,9 @@ class CsvConverter:
     def clear(self):
         self.lines = []
 
+    def addRow(self, row):
+        self.lines.append(row)
+
     def convertRow(self, row):
         return {
             'product_code': int(row['tuotekoodi']),
@@ -22,4 +25,4 @@ class CsvConverter:
         with open(self.csv_file_path, 'rb') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                self.lines.append(convertRow(row))
+                self.addRow(convertRow(row))
