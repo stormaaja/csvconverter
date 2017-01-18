@@ -12,11 +12,14 @@ class CsvConverter:
     def clear(self):
         self.lines = []
 
+    def convertRow(self, row):
+        return {
+            'product_code': int(row['tuotekoodi']),
+            'quantity': int(row['qty'])
+        }
+
     def read_file(self):
         with open(self.csv_file_path, 'rb') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                self.lines.append({
-                    'product_code': int(row['tuotekoodi']),
-                    'quantity': int(row['qty'])
-                })
+                self.lines.append(convertRow(row))
