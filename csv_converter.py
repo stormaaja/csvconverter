@@ -24,10 +24,6 @@ class CsvConverter:
         self.source_product_code = source_product_code
         self.source_quantity = source_quantity
 
-    def setTargetColumns(self, target_product_code, target_quantity):
-        self.target_product_code = target_product_code
-        self.target_quantity = target_quantity
-
     def convertRow(self, row):
         if not row[self.source_product_code]:
             raise ValueError
