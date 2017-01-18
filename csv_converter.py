@@ -7,18 +7,18 @@ class CsvConverter:
 
     def __init__(self, csv_file_path):
         self.csv_file_path = csv_file_path
-        self.lines = []
+        self.rows = []
         self.source_product_code = "product_code"
         self.source_quantity = "quantity"
 
     def clear(self):
-        self.lines = []
+        self.rows = []
 
     def addRow(self, row):
-        self.lines.append(row)
+        self.rows.append(row)
 
     def getRow(self, index):
-        return self.lines[index]
+        return self.rows[index]
 
     def setSourceColumns(source_product_code, source_quantity):
         self.source_product_code = source_product_code
