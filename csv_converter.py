@@ -20,11 +20,11 @@ class CsvConverter:
     def getRow(self, index):
         return self.rows[index]
 
-    def setSourceColumns(source_product_code, source_quantity):
+    def setSourceColumns(self, source_product_code, source_quantity):
         self.source_product_code = source_product_code
         self.source_quantity = source_quantity
 
-    def setTargetColumns(target_product_code, target_quantity):
+    def setTargetColumns(self, target_product_code, target_quantity):
         self.target_product_code = target_product_code
         self.target_quantity = target_quantity
 
