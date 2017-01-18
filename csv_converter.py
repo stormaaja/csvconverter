@@ -8,6 +8,8 @@ class CsvConverter:
     def __init__(self, csv_file_path):
         self.csv_file_path = csv_file_path
         self.lines = []
+        self.source_product_code = "product_code"
+        self.source_quantity = "quantity"
 
     def clear(self):
         self.lines = []
