@@ -30,14 +30,14 @@ class StockUpdater:
         check_query = "SELECT COUNT(*) FROM {} WHERE {} LIKE ?".format(
             self.table, self.product_code_column)
 
-        item_count = cursor.execute(check_query, (product_code,)).fetchone()[0]
+        product_count = cursor.execute(check_query, (product_code,)).fetchone()[0]
         cursor.close()
 
-        if item_count == 0:
+        if product_count == 0:
             raise ProductNotFoundError(
                 "No product found with product code {}"
                 .format(product_code))
-        elif item_count > 1:
+        elif product_count > 1:
             raise MultipleProductsFoundError(
                 "Multiple products found with product code {}"
                 .format(product_code))
