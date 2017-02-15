@@ -1,0 +1,19 @@
+{
+    "testing": true,
+    "source": {
+        "url": "http://example.com/file.csv",
+        "product_code_column": "product_code",
+        "quantity_column": "quantity"
+    },
+    "database_connection": {
+        "type": "mysql",
+        "product_code_column": "product_code",
+        "quantity_column": "quantity",
+        "products_table": "products",
+        "check_products": true,
+        "username": "user",
+        "password": "password",
+        "database": "products",
+        "host": "127.0.0.1"
+    }
+}
