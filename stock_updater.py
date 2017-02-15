@@ -8,6 +8,10 @@ class StockUpdater:
 
     def __init__(self, db_connection):
         self.db_connection = db_connection
+        self.perform_check_product = True
+
+    def set_perform_check_product(self, value):
+        self.perform_check_product = value
 
     def set_items(self, items):
         self.items = items
@@ -43,7 +47,8 @@ class StockUpdater:
                 .format(product_code))
 
     def update_quantity(self, product_code, quantity):
-        self.check_product(product_code)
+        if self.perform_check_product:
+            self.check_product(product_code)
 
         cursor = self.db_connection.cursor()
         query = "UPDATE {} SET {} = ? WHERE {} LIKE ?".format(
