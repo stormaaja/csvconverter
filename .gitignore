@@ -90,3 +90,6 @@ ENV/
 
 # Config
 config.json
+
+# Databases
+*.db
