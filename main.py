@@ -5,7 +5,6 @@ from urllib2 import Request, urlopen, HTTPError, URLError
 from csv_converter import CsvConverter
 from stock_updater import StockUpdater
 import sqlite3
-import psycopg2
 import mysql.connector
 import os
 import json
@@ -34,13 +33,6 @@ converter.read_csv(response)
 
 if config["database_connection"]["type"] == "sqlite3":
     conn = sqlite3.connect(config["database_connection"]["url"])
-elif config["database_connection"]["type"] == "psql":
-    conn = psycopg2.connect(
-        "dbname='{}' user='{}' host='{}' password='{}".format(
-            config["database_connection"]["database"],
-            config["database_connection"]["username"],
-            config["database_connection"]["host"],
-            config["database_connection"]["password"]))
 elif config["database_connection"]["type"] == "mysql":
     conn = mysql.connector.connect(
         user=config["database_connection"]["username"],
