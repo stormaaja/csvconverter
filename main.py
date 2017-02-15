@@ -32,7 +32,7 @@ converter.setSourceColumns(
 converter.read_csv(response)
 
 if config["database_connection"]["type"] == "sqlite3":
-    conn = sqlite3.connect(config["database_connection"]["url"])
+    conn = sqlite3.connect(config["database_connection"]["database"])
 elif config["database_connection"]["type"] == "mysql":
     conn = mysql.connector.connect(
         user=config["database_connection"]["username"],
