@@ -35,7 +35,12 @@ converter.read_csv(response)
 if config["database"]["type"] == "sqlite3":
     conn = sqlite3.connect(config["database"]["url"])
 elif config["database"]["type"] == "psql":
-    conn = psycopg2.connect(config["database"]["connection"])
+    conn = psycopg2.connect(
+        "dbname='{}' user='{}' host='{}' password='{}".format(
+            config["database"]["database"],
+            config["database"]["username"],
+            config["database"]["host"],
+            config["database"]["password"]))
 elif config["database"]["type"] == "mysql":
     conn = mysql.connector.connect(
         user=config["database"]["username"],
