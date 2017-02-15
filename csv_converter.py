@@ -32,8 +32,11 @@ class CsvConverter:
             'quantity': int(row[self.source_quantity])
         }
 
+    def read_csv(self, file_object):
+        reader = csv.DictReader(file_object)
+        for row in reader:
+            self.addRow(self.convertRow(row))
+
     def read_file(self):
         with open(self.csv_file_path, 'rb') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                self.addRow(self.convertRow(row))
+            self.read_csv(csvfile)
