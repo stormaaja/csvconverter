@@ -8,11 +8,11 @@ Python 2.7
 
 ### System requirements
 
-MacOSX: `brew install postgresql`
+MacOSX: `brew install mysql`
 
-Ubuntu: `sudo apt-get install postgresql`
+Ubuntu: `sudo apt-get install mysql`
 
-Arch: `sudo pacman -S postgresql`
+Arch: `sudo pacman -S mysql`
 
 ### Python virtual environment
 
