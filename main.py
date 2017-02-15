@@ -32,21 +32,21 @@ converter.setSourceColumns(
     config["source"]["quantity_column"])
 converter.read_csv(response)
 
-if config["database"]["type"] == "sqlite3":
-    conn = sqlite3.connect(config["database"]["url"])
-elif config["database"]["type"] == "psql":
+if config["database_connection"]["type"] == "sqlite3":
+    conn = sqlite3.connect(config["database_connection"]["url"])
+elif config["database_connection"]["type"] == "psql":
     conn = psycopg2.connect(
         "dbname='{}' user='{}' host='{}' password='{}".format(
-            config["database"]["database"],
-            config["database"]["username"],
-            config["database"]["host"],
-            config["database"]["password"]))
-elif config["database"]["type"] == "mysql":
+            config["database_connection"]["database"],
+            config["database_connection"]["username"],
+            config["database_connection"]["host"],
+            config["database_connection"]["password"]))
+elif config["database_connection"]["type"] == "mysql":
     conn = mysql.connector.connect(
-        user=config["database"]["username"],
+        user=config["database_connection"]["username"],
         password=config["password"]["password"],
-        host=config["database"]["host"],
-        database=config["database"]["database"])
+        host=config["database_connection"]["host"],
+        database=config["database_connection"]["database"])
 else:
     raise "Please, define database"
 
@@ -55,10 +55,10 @@ if config["testing"]:
     database_helper.add_test_products(conn)
 
 updater = StockUpdater(conn)
-updater.set_perform_check_product(config["database"]["check_products"])
+updater.set_perform_check_product(config["database_connection"]["check_products"])
 updater.set_destination_colums(
-    config["database"]["product_code_column"],
-    config["database"]["quantity_column"])
-updater.set_table(config["database"]["products_table"])
+    config["database_connection"]["product_code_column"],
+    config["database_connection"]["quantity_column"])
+updater.set_table(config["database_connection"]["products_table"])
 updater.set_items(converter.rows)
 updater.update()
