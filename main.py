@@ -6,6 +6,7 @@ from csv_converter import CsvConverter
 from stock_updater import StockUpdater
 import sqlite3
 import psycopg2
+import mysql.connector
 import os
 import json
 
@@ -35,6 +36,12 @@ if config["database"]["type"] == "sqlite3":
     conn = sqlite3.connect(config["database"]["url"])
 elif config["database"]["type"] == "psql":
     conn = psycopg2.connect(config["database"]["connection"])
+elif config["database"]["type"] == "mysql":
+    conn = mysql.connector.connect(
+        user=config["database"]["username"],
+        password=config["password"]["password"],
+        host=config["database"]["host"],
+        database=config["database"]["database"])
 else:
     raise "Please, define database"
 
