@@ -23,7 +23,7 @@ Arch: `sudo pacman -S mysql`
 
 ### Configure
 
-Copy `config.json.example` to `config.json` and set proper values.
+Copy `config.example.json` to `config.json` and set proper values.
 
 ## Run
 
