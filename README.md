@@ -6,6 +6,23 @@ Python 2.7
 
 ## Install
 
+### System requirements
+
+MacOSX: `brew install postgresql`
+
+Ubuntu: `sudo apt-get install postgresql`
+
+Arch: `sudo pacman -S postgresql`
+
+### Python virtual environment
+
+    pip2.7 install virtualenv
+    virtualenv -p /usr/bin/python2.7 venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+
+### Configure
+
 Copy `config.json.example` to `config.json` and set proper values.
 
 ## Run
