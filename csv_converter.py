@@ -10,6 +10,10 @@ class CsvConverter:
         self.rows = []
         self.source_product_code = "product_code"
         self.source_quantity = "quantity"
+        self.debug = False
+
+    def set_debug(self, debug):
+        self.debug = debug
 
     def clear(self):
         self.rows = []
@@ -27,6 +31,8 @@ class CsvConverter:
     def convertRow(self, row):
         if not row[self.source_product_code]:
             raise ValueError
+        if self.debug:
+            print row
         return {
             'product_code': row[self.source_product_code],
             'quantity': int(row[self.source_quantity])
