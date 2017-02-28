@@ -11,7 +11,7 @@ import json
 
 import database_helper
 
-with open("config.json") as f:    
+with open("config.json") as f:
     config = json.load(f)
 
 request = Request(config["source"]["url"])
@@ -36,7 +36,7 @@ if config["database_connection"]["type"] == "sqlite3":
 elif config["database_connection"]["type"] == "mysql":
     conn = mysql.connector.connect(
         user=config["database_connection"]["username"],
-        password=config["password"]["password"],
+        password=config["database_connection"]["password"],
         host=config["database_connection"]["host"],
         database=config["database_connection"]["database"])
 else:
