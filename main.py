@@ -26,6 +26,8 @@ except URLError as e:
     exit
 
 converter = CsvConverter("")
+if "debug" in config:
+    converter.set_debug(config["debug"])
 converter.setSourceColumns(
     config["source"]["product_code_column"],
     config["source"]["quantity_column"])
