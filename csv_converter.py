@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import csv
+import warnings
 
 class CsvConverter:
 
@@ -11,9 +12,6 @@ class CsvConverter:
         self.source_product_code = "product_code"
         self.source_quantity = "quantity"
         self.debug = False
-
-    def set_debug(self, debug):
-        self.debug = debug
 
     def clear(self):
         self.rows = []
@@ -31,8 +29,6 @@ class CsvConverter:
     def convertRow(self, row):
         if not row[self.source_product_code]:
             raise ValueError
-        if self.debug:
-            print row
         return {
             'product_code': row[self.source_product_code],
             'quantity': int(row[self.source_quantity])
@@ -41,7 +37,10 @@ class CsvConverter:
     def read_csv(self, file_object):
         reader = csv.DictReader(file_object)
         for row in reader:
-            self.addRow(self.convertRow(row))
+            try:
+                self.addRow(self.convertRow(row))
+            except ValueError as e:
+                warnings.warn("Row parsing: {} Warning: {}".format(row, e.strerror), UserWarning)
 
     def read_file(self):
         with open(self.csv_file_path, 'rb') as csvfile:
