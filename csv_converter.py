@@ -40,7 +40,7 @@ class CsvConverter:
             try:
                 self.addRow(self.convertRow(row))
             except ValueError as e:
-                warnings.warn("Row parsing: {} Warning: {}".format(row, e.strerror), UserWarning)
+                warnings.warn("Invalid row: {}".format(row), UserWarning)
 
     def read_file(self):
         with open(self.csv_file_path, 'rb') as csvfile:
