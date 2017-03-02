@@ -9,7 +9,6 @@ import mysql.connector
 import os
 import json
 import logging
-from datetime import datetime
 
 import database_helper
 
@@ -60,9 +59,12 @@ class UpdateWrapper:
         updater.set_table(self.config["database_connection"]["products_table"])
 
         for item in converter.rows:
+            logging.info("Updating product {}".format(item['product_code']))
             try:
                 updater.update_quantity(item['product_code'], item['quantity'])
             except ProductNotFoundError as e:
                 logging.warning("Product {} not found".format(item['product_code']))
             except MultipleProductsFoundError as e:
                 logging.error("Multiple products found with product id {}".format(item['product_code']))
+            except sqlite3.ProgrammingError:
+                logging.error("Invalid product code: {}".format(item['product_code']))
