@@ -11,7 +11,7 @@ if not os.path.isdir("log"):
     os.mkdir("log")
 
 logging.basicConfig(
-    filename="log/{}.log".format(datetime.now().strftime("%Y%m%d%H%M%S%%f")),
+    filename="log/{}.log".format(datetime.now().strftime("%Y%m%d%H%M%S%f")),
     level=logging.DEBUG)
 
 logging.captureWarnings(True)
