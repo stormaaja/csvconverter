@@ -8,13 +8,6 @@ class StockUpdater:
 
     def __init__(self, db_connection):
         self.db_connection = db_connection
-        self.perform_check_product = True
-
-    def set_perform_check_product(self, value):
-        self.perform_check_product = value
-
-    def set_items(self, items):
-        self.items = items
 
     def set_table(self, table):
         self.table = table
@@ -22,11 +15,6 @@ class StockUpdater:
     def set_destination_colums(self, product_code, quantity):
         self.product_code_column = product_code
         self.quantity_column = quantity
-
-    def update(self):
-        # cursor.execute_many?
-        for item in self.items:
-            self.update_quantity(item['product_code'], item['quantity'])
 
     def check_product(self, product_code):
         cursor = self.db_connection.cursor()
@@ -47,8 +35,7 @@ class StockUpdater:
                 .format(product_code))
 
     def update_quantity(self, product_code, quantity):
-        if self.perform_check_product:
-            self.check_product(product_code)
+        self.check_product(product_code)
 
         cursor = self.db_connection.cursor()
         query = "UPDATE {} SET {} = ? WHERE {} LIKE ?".format(
