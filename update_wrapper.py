@@ -13,14 +13,7 @@ from datetime import datetime
 
 import database_helper
 
-logging.captureWarnings(True)
-
 class UpdateWrapper:
-
-    def __init__(self):
-        logging.basicConfig(
-            filename="log/{}.log".format(datetime.now().strftime("%Y%m%d%H%M%S%%f")),
-            level=logging.DEBUG)
 
     def read_config(self, file):
         with open(file) as f:
