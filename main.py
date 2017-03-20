@@ -27,5 +27,12 @@ wrapper.read_config("config.json")
 
 app = Flask(__name__)
 
+@app.route("/log")
+def get_log():
+    with open(FULL_LOG_PATH, 'r') as f:
+        read_data = f.read()
+    f.closed
+    return read_data
+
 if __name__ == "__main__":
     app.run()
