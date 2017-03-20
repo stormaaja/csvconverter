@@ -8,7 +8,7 @@ from flask import Flask
 
 from update_wrapper import UpdateWrapper
 
-LOG_FILE = datetime.now().strftime("%Y%m%d%H%M%S%f")
+LOG_FILE = "{}.log".format(datetime.now().strftime("%Y%m%d%H%M%S%f"))
 LOG_DIR = "log"
 FULL_LOG_PATH = os.path.join(LOG_DIR, LOG_FILE)
 
@@ -23,11 +23,10 @@ logging.captureWarnings(True)
 
 wrapper = UpdateWrapper()
 wrapper.read_config("config.json")
-# wrapper.run()
 
 app = Flask(__name__)
 
-@app.route("/log", methods=['GET'])
+@app.route('/log', methods=['GET'])
 def get_log():
     with open(FULL_LOG_PATH, 'r') as f:
         read_data = f.read()
