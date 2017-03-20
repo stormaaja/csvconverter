@@ -4,6 +4,7 @@
 import os
 import logging
 from datetime import datetime
+from flask import Flask
 
 from update_wrapper import UpdateWrapper
 
@@ -20,4 +21,9 @@ logging.captureWarnings(True)
 
 wrapper = UpdateWrapper()
 wrapper.read_config("config.json")
-wrapper.run()
+# wrapper.run()
+
+app = Flask(__name__)
+
+if __name__ == "__main__":
+    app.run()
