@@ -8,13 +8,15 @@ from flask import Flask
 
 from update_wrapper import UpdateWrapper
 
-if not os.path.isdir("log"):
-    os.mkdir("log")
-
 LOG_FILE = datetime.now().strftime("%Y%m%d%H%M%S%f")
+LOG_DIR = "log"
+FULL_LOG_PATH = os.path.join(LOG_DIR, LOG_FILE)
+
+if not os.path.isdir(LOG_DIR):
+    os.mkdir(LOG_DIR)
 
 logging.basicConfig(
-    filename="log/{}.log".format(LOG_FILE),
+    filename=FULL_LOG_PATH,
     level=logging.DEBUG)
 
 logging.captureWarnings(True)
