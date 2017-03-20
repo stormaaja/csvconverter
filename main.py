@@ -10,8 +10,10 @@ from update_wrapper import UpdateWrapper
 if not os.path.isdir("log"):
     os.mkdir("log")
 
+LOG_FILE = datetime.now().strftime("%Y%m%d%H%M%S%f")
+
 logging.basicConfig(
-    filename="log/{}.log".format(datetime.now().strftime("%Y%m%d%H%M%S%f")),
+    filename="log/{}.log".format(LOG_FILE),
     level=logging.DEBUG)
 
 logging.captureWarnings(True)
