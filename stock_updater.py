@@ -19,10 +19,11 @@ class StockUpdater:
     def check_product(self, product_code):
         cursor = self.db_connection.cursor()
 
-        check_query = "SELECT COUNT(*) FROM {} WHERE {} LIKE ?".format(
+        check_query = "SELECT COUNT(*) FROM {} WHERE {} LIKE %s".format(
             self.table, self.product_code_column)
 
-        product_count = cursor.execute(check_query, (product_code,)).fetchone()[0]
+        cursor.execute(check_query, (product_code,))
+        product_count = cursor.fetchone()[0]
         cursor.close()
 
         if product_count == 0:
@@ -38,7 +39,7 @@ class StockUpdater:
         self.check_product(product_code)
 
         cursor = self.db_connection.cursor()
-        query = "UPDATE {} SET {} = ? WHERE {} LIKE ?".format(
+        query = "UPDATE {} SET {} = %s WHERE {} LIKE %s".format(
             self.table, self.quantity_column, self.product_code_column)
         try:
             cursor.execute(query, (quantity, product_code))
