@@ -89,8 +89,6 @@ def logout():
 
 @app.route('/session', methods=['POST'])
 def login():
-    print(request.form)
-    print(wrapper.config)
     if request.form['username'] == wrapper.config['username'] \
             and request.form['password'] == wrapper.config['password']:
         session['username'] = request.form['username']
