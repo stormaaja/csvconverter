@@ -5,7 +5,7 @@ import os
 import re
 import logging
 from datetime import datetime
-from flask import Flask, request
+from flask import Flask, request, session
 
 from update_wrapper import UpdateWrapper
 
@@ -17,6 +17,9 @@ LINE_TYPE_INFO = "INFO"
 LINE_TYPE_WARNING = "WARNING"
 LINE_TYPE_ERROR = "ERROR"
 LINE_TYPE_UNDEFINED = ""
+
+PUBLIC_PATHS = { "/session": [ 'POST' ],
+                    "/": ['GET'] }
 
 line_type_pattern = re.compile('^(ERROR|WARNING|INFO):')
 
@@ -33,6 +36,16 @@ wrapper = UpdateWrapper()
 wrapper.read_config("config.json")
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
+
+
+class Unauthorized(Exception):
+    status_code = 401
+
+    def __init__(self, message="", payload=None):
+        Exception.__init__(self)
+        self.message = message
+        self.payload = payload
 
 def get_line_type(line):
     if line_type_pattern.match(line) != None:
@@ -44,6 +57,41 @@ def read_file(file):
         read_data = f.read()
     f.closed
     return read_data
+
+@app.errorhandler(Unauthorized)
+def custom_401(error):
+    return "Unauthorized", error.status_code
+
+@app.before_request
+def before_req():
+    if "username" in session:
+        return
+
+    if request.path in PUBLIC_PATHS and \
+        request.method in PUBLIC_PATHS[request.path]:
+        return
+
+    raise Unauthorized()
+
+@app.route('/session', methods=['DELETE'])
+def logout():
+    session.pop('username', None)
+    app.secret_key = os.urandom(24)
+    return "Ok", 200
+
+@app.route('/session', methods=['POST'])
+def login():
+    print(request.form)
+    print(wrapper.config)
+    if request.form['username'] == wrapper.config['username'] \
+            and request.form['password'] == wrapper.config['password']:
+        session['username'] = request.form['username']
+        return session['username'], 200
+    return "Invalid password or username", 401
+
+@app.route('/session', methods=['GET'])
+def get_status():
+    return session['username'], 200
 
 @app.route('/', methods=['GET'])
 def get_index():
