@@ -5,6 +5,8 @@ import os
 import re
 import logging
 from datetime import datetime
+from threading import Thread
+
 from flask import Flask, request, session
 
 from update_wrapper import UpdateWrapper
@@ -57,6 +59,12 @@ def read_file(file):
         read_data = f.read()
     f.closed
     return read_data
+
+def run_update():
+    try:
+        wrapper.run()
+    except Exception as e:
+        logging.exception(e)
 
 @app.errorhandler(Unauthorized)
 def custom_401(error):
@@ -124,6 +132,12 @@ def get_log():
     f.closed
 
     return "".join(log_lines)
+
+@app.route('/update', methods=['POST'])
+def perform_update():
+    thread = Thread(target = run_update)
+    thread.start()
+    return "Update started", 200
 
 if __name__ == "__main__":
     app.run()
