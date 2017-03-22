@@ -39,6 +39,16 @@ def get_line_type(line):
         return line[:line.index(':')]
     return LINE_TYPE_UNDEFINED
 
+def read_file(file):
+    with open(file, 'r') as f:
+        read_data = f.read()
+    f.closed
+    return read_data
+
+@app.route('/', methods=['GET'])
+def get_index():
+    return read_file("public/index.html")
+
 @app.route('/log', methods=['GET'])
 def get_log():
     include = []
