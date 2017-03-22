@@ -6,8 +6,9 @@ from product_not_found_error import ProductNotFoundError
 
 class StockUpdater:
 
-    def __init__(self, db_connection):
+    def __init__(self, db_connection, query_format="%s"):
         self.db_connection = db_connection
+        self.query_format = query_format
 
     def set_table(self, table):
         self.table = table
@@ -19,8 +20,8 @@ class StockUpdater:
     def check_product(self, product_code):
         cursor = self.db_connection.cursor()
 
-        check_query = "SELECT COUNT(*) FROM {} WHERE {} LIKE %s".format(
-            self.table, self.product_code_column)
+        check_query = "SELECT COUNT(*) FROM {} WHERE {} LIKE {}".format(
+            self.table, self.product_code_column, self.query_format)
 
         cursor.execute(check_query, (product_code,))
         product_count = cursor.fetchone()[0]
@@ -39,8 +40,9 @@ class StockUpdater:
         self.check_product(product_code)
 
         cursor = self.db_connection.cursor()
-        query = "UPDATE {} SET {} = %s WHERE {} LIKE %s".format(
-            self.table, self.quantity_column, self.product_code_column)
+        query = "UPDATE {} SET {} = {} WHERE {} LIKE {}".format(
+            self.table, self.quantity_column, self.query_format,
+            self.product_code_column, self.query_format)
         try:
             cursor.execute(query, (quantity, product_code))
             self.db_connection.commit()
