@@ -32,7 +32,7 @@ class TestStockUpdater(unittest.TestCase):
         cursor.close()
 
     def create_updater(self, conn):
-        updater = StockUpdater(conn)
+        updater = StockUpdater(conn, "?")
         updater.set_destination_colums("product_code", "quantity")
         updater.set_table("products")
         return updater
