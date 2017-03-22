@@ -37,6 +37,8 @@ class UpdateWrapper:
             self.config["source"]["quantity_column"])
         converter.read_csv(response)
 
+        logging.info("%s products to update", len(converter.rows))
+
         if self.config["database_connection"]["type"] == "sqlite3":
             conn = sqlite3.connect(self.config["database_connection"]["database"])
         elif self.config["database_connection"]["type"] == "mysql":
