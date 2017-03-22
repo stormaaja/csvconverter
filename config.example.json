@@ -1,10 +1,13 @@
 {
     "testing": true,
+    "development": true,
     "source": {
         "url": "http://example.com/file.csv",
         "product_code_column": "product_code",
         "quantity_column": "quantity"
     },
+    "username": "Change default username",
+    "password": "Change default password",
     "database_connection": {
         "type": "mysql",
         "product_code_column": "product_code",
