@@ -25,6 +25,8 @@ Arch: `sudo pacman -S mysql`
 
 Copy `config.example.json` to `config.json` and set proper values.
 
+Minify `public/index.js` to `public/index-min.js` with your favorite minimizer.
+
 ## Run
 
     python main.py
