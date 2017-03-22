@@ -21,6 +21,7 @@ LINE_TYPE_ERROR = "ERROR"
 LINE_TYPE_UNDEFINED = ""
 
 PUBLIC_PATHS = { "/session": [ 'POST' ],
+                    "/index-min.js": ['GET'],
                     "/": ['GET'] }
 
 line_type_pattern = re.compile('^(ERROR|WARNING|INFO):')
@@ -102,6 +103,12 @@ def get_status():
 @app.route('/', methods=['GET'])
 def get_index():
     return read_file("public/index.html")
+
+@app.route('/index-min.js', methods=['GET'])
+def get_index_js():
+    if wrapper.config['development']:
+        return read_file("public/index.js")
+    return read_file("public/index-min.js")
 
 @app.route('/log', methods=['GET'])
 def get_log():
