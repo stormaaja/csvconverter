@@ -6,9 +6,9 @@ import re
 import sys
 import logging
 from datetime import datetime
-from threading import Thread
+from threading import Thread, Lock
 
-from flask import Flask, request, session
+from flask import Flask, request, session, json
 
 from update_wrapper import UpdateWrapper
 
@@ -48,6 +48,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "--run-update":
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+status = { "code": 0, "message": "idle" }
 
 class Unauthorized(Exception):
     status_code = 401
@@ -68,10 +69,21 @@ def read_file(file):
     f.closed
     return read_data
 
+def set_status(code, message):
+    lock = Lock()
+    with lock:
+        status["code"] = code
+        status["message"] = message
+
 def run_update():
     try:
+        logging.info("Update started")
+        set_status(1, "Update started {}".format(datetime.now()))
         wrapper.run()
+        set_status(1, "Update finished {}".format(datetime.now()))
+        logging.info("Update finished")
     except Exception as e:
+        set_status(-1, "Error occurred")
         logging.exception(e)
 
 @app.errorhandler(Unauthorized)
@@ -104,8 +116,12 @@ def login():
     return "Invalid password or username", 401
 
 @app.route('/session', methods=['GET'])
-def get_status():
+def get_session():
     return session['username'], 200
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    return json.jsonify(status), 200
 
 @app.route('/', methods=['GET'])
 def get_index():
