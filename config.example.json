@@ -1,6 +1,8 @@
 {
     "testing": true,
     "development": true,
+    "host": "0.0.0.0",
+    "port": 5000,
     "source": {
         "url": "http://example.com/file.csv",
         "product_code_column": "product_code",

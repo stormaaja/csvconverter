@@ -168,4 +168,4 @@ def perform_update():
     return "Update started", 200
 
 if __name__ == "__main__":
-    app.run()
+    app.run(wrapper.config['host'], wrapper.config['port'])
