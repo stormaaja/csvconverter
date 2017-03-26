@@ -3,6 +3,7 @@
 
 import os
 import re
+import sys
 import logging
 from datetime import datetime
 from threading import Thread
@@ -37,6 +38,12 @@ logging.captureWarnings(True)
 
 wrapper = UpdateWrapper()
 wrapper.read_config("config.json")
+
+if len(sys.argv) > 1 and sys.argv[1] == "--run-update":
+    logging.info("Running update")
+    wrapper.run()
+    logging.info("Update finished")
+    sys.exit()
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
