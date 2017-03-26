@@ -14,12 +14,28 @@ function setLoggedIn(user) {
   $("#log").removeClass("disabled");
 }
 
+function getStatus(success) {
+  $.get('/status', function(data) {
+    success(data);
+  });
+}
+
+function watchStatus() {
+  getStatus(function(status) {
+    $('#status').text(status["message"]);
+    if (status["code"] === 1) {
+      setTimeout(function(){ watchStatus(); }, 3000);
+    }
+  });
+}
+
 $('#buttonLogin').on('click', function() {
   $.post('/session', {
       username: $('#username').val(), password: $('#password').val() })
   .done(function(data) {
     $('#textAreaLog').text("Logged in");
     setLoggedIn(data);
+    watchStatus();
   }).fail(function(data) {
     $('#textAreaLog').text("Login failed: " + data.responseText);
   });
@@ -29,6 +45,7 @@ $('#buttonStartUpdate').on('click', function() {
   $.post('/update')
   .done(function(data) {
     $('#textAreaLog').text(data);
+    watchStatus();
   }).fail(function(data) {
     $('#textAreaLog').text("Login failed: " + data.responseText);
   });
@@ -68,6 +85,7 @@ $('#loadLogButton').on('click', function() {
 $(function() {
   $.get('/session', function(data) {
     setLoggedIn(data);
+    watchStatus();
   }).fail(function(data) {
     if (data.status === 401) {
       setLoggedOut();
